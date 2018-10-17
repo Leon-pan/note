@@ -168,9 +168,3 @@ sed -i '/^server_host=/c\server_host=10.1.20.54' /etc/cloudera-scm-agent/config.
 湘湖远程
 115.238.60.141:8107
 supconit.1
-
-
-先锋更改
-海宁电力部署
-广西文档
-林朋文件更新
