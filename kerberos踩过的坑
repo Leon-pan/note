@@ -1,0 +1,42 @@
+#Kerberos认证
+kadmin.local
+
+listprincs
+
+kadmin.local -q "addprinc HTTP"
+
+kinit hdfs
+kinit -kt /path user
+
+klist
+
+Hue
+Kerberos Ticket Renewer服务启动报错
+kadmin.local:  modprinc -maxrenewlife 90day krbtgt/EXAMPLE.COM@EXAMPLE.COM
+
+kadmin.local:  modprinc -maxrenewlife 90day +allow_renewable hue/namenode01.hadoop@EXAMPLE.COM
+
+
+
+useradd -g hadoop admin
+
+
+配置更改项：
+YARN
+banned.users
+allowed.system.users
+min.user.id
+
+HBase
+hbase.rest.authentication.type
+hbase.security.authentication
+hbase.thrift.security.qop
+hbase.security.authorization
+
+
+
+
+Firefox浏览器
+访问about:config 页面调整以下参数：
+1. network.negotiate-auth.trusted-uris 允许使用gssapi链接验证的地址
+2. network.auth.use-sspi 关闭sspi验证协议
