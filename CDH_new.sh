@@ -217,7 +217,9 @@ Install_CMS(){
 			then
 				echo -e  "${GREEN}检测到mysql-connector-java开始初始化CM5的数据库${RES}"
 				\cp -f mysql-connector-java-*.jar /usr/share/cmf/lib/
+				#hive
 				#\cp -f mysql-connector-java-*.jar /opt/cloudera/parcels/CDH-5.14.2-1.cdh5.14.2.p0.3/lib/hive/lib
+				#oozie
 				#mkdir /usr/share/java
 				#\cp -f mysql-connector-java-*.jar /usr/share/java
 				#mv /usr/share/java/mysql-connector-java-*.jar /usr/share/java/mysql-connector-java.jar
