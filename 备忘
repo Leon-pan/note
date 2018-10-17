@@ -1,0 +1,176 @@
+#JAVA_PATH
+export JAVA_HOME=/usr/java/jdk1.8
+export JRE_HOME=${JAVA_HOME}/jre
+export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
+export PATH=${JAVA_HOME}/bin:$PATH
+
+
+1.高版本无法识别URL中的中文
+解决方法：在tomcat目录下的conf/catalina.properties中，找到最后注释掉的一行 ＃tomcat.util.http.parser.HttpParser.requestTargetAllow=|，改成tomcat.util.http.parser.HttpParser.requestTargetAllow=|{}，表示把｛｝放行
+2.页面中文显示乱码
+解决方法：在tomcat目录下conf/server.xml中，找到  
+<Connector port="8888" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+redirectPort="8443"/>
+在8443后面添加 URIEncoding="UTF-8" 
+3.去掉tomcat访问项目路径
+解决方法：在tomcat目录下conf/server.xml中，找到
+<Host name="localhost"  appBase="webapps" unpackWARs="true" autoDeploy="true">
+在下面添加一行<Context path="" docBase="web" reloadable="true" /> docBase里面写的是项目名
+
+
+Asqwop123#$
+
+grant all privileges on *.* to 'root'@'%' identified by 'Asqwop123#$';
+
+grant all privileges on hive.* to 'hive'@'%' identified by 'hive_123#$';
+grant all privileges on hive.* to 'hive'@'localhost' identified by 'hive_123#$';
+
+grant all privileges on monitor.* to 'monitor'@'%' identified by 'monitor_123#$';
+grant all privileges on monitor.* to 'monitor'@'localhost' identified by 'monitor_123#$';
+
+grant all privileges on oozie.* to 'oozie'@'%' identified by 'oozie_123#$';
+grant all privileges on oozie.* to 'oozie'@'localhost' identified by 'oozie_123#$';
+
+grant all privileges on hue.* to 'hue'@'%' identified by 'hue_123#$';
+grant all privileges on hue.* to 'hue'@'localhost' identified by 'hue_123#$';
+
+grant all privileges on sentry.* to 'sentry'@'%' identified by 'sentry_123#$';
+grant all privileges on sentry.* to 'sentry'@'localhost' identified by 'sentry_123#$';
+
+
+mysql5.7 → mysql5.6
+oozie的主节点需要同时安装spark
+hive、oozie在特定情况下需要单独复制jdbc包
+zookeeper 缩减至 datanode[01-05]，不超过五台
+kafka 调整java Heap Size of Broker
+
+
+#Linux备份
+cd /home
+tar cvpzf backup.tar.gz / --exclude=/proc --exclude=/home/backup.tar.gz --exclude=/mnt --exclude=/sys
+
+
+tar xvpfz backup.tar.gz -C /
+mkdir /proc
+mkdir /mnt
+mkdir /sys
+
+restorecon -Rv /
+
+
+nginx日志分割？
+
+10.147.101.200
+
+
+
+#PXE安装
+label linux
+  menu label ^Install CentOS 7 local
+  kernel vmlinuz
+  append initrd=initrd.img inst.repo=http://192.168.197.128/CentOS7 devfs=nomount
+
+
+
+
+  subnet 192.168.197.0 netmask 255.255.255.0 {
+        range 192.168.197.150 192.168.197.200;
+        option subnet-mask 255.255.255.0;
+        default-lease-time 21600;
+        max-lease-time 43200;
+        next-server 192.168.197.128;
+        filename "/pxelinux.0";
+}
+
+#时间设置
+timedatectl
+
+
+hwclock  --show
+hwclock --systohc
+
+
+#数据库日志清理
+mysql -e 'set global relay_log_purge=0' -p
+
+crontab -e
+
+
+0 0 15 * * /home/mha/purge_relay_log.sh
+
+
+#hadoop复制因子
+hadoop fsck /
+
+hadoop fsck -locations
+
+hadoop fs -setrep -w -R 2 /
+
+dfs.replication
+
+
+#Oracle字符
+select userenv('language') from dual;
+select * from nls_database_parameters;
+
+#Oracle删库
+dbca -silent -deleteDatabase -sourceDB orcl -sid orcl -sysDBAUserName orcl -sysDBAPassword password
+
+
+#Hadoop类测试
+/opt/cloudera/parcels/CDH-5.14.2-1.cdh5.14.2.p0.3/lib/hadoop-0.20-mapreduce/hadoop-examples-2.6.0-mr1-cdh5.14.2.jar
+/opt/cloudera/parcels/CDH-5.14.2-1.cdh5.14.2.p0.3/lib/hadoop-0.20-mapreduce/hadoop-examples.jar
+/opt/cloudera/parcels/CDH-5.14.2-1.cdh5.14.2.p0.3/lib/hadoop-0.20-mapreduce/hadoop-examples-mr1.jar
+/opt/cloudera/parcels/CDH-5.14.2-1.cdh5.14.2.p0.3/lib/hadoop-0.20-mapreduce/hadoop-test-2.6.0-mr1-cdh5.14.2.jar
+/opt/cloudera/parcels/CDH-5.14.2-1.cdh5.14.2.p0.3/lib/hadoop-0.20-mapreduce/hadoop-test-mr1.jar
+
+
+sudo hadoop jar /opt/cloudera/parcels/CDH-5.14.2-1.cdh5.14.2.p0.3/lib/hadoop-0.20-mapreduce/hadoop-test-mr1.jar TestDFSIO -write -nrFiles 10 -fileSize 1000
+
+
+sudo hadoop jar /opt/cloudera/parcels/CDH-5.14.2-1.cdh5.14.2.p0.3/lib/hadoop-0.20-mapreduce/hadoop-test-mr1.jar TestDFSIO -read -nrFiles 10 -fileSize 1000
+
+
+sudo hadoop jar /opt/cloudera/parcels/CDH-5.14.2-1.cdh5.14.2.p0.3/lib/hadoop-0.20-mapreduce/hadoop-test-mr1.jar TestDFSIO -clean
+
+
+#Kerberos认证
+kadmin.local
+
+listprincs
+
+kadmin.local -q "addprinc HTTP"
+
+kinit hdfs
+kinit -kt /path user
+
+klist
+
+kadmin.local:  modprinc -maxrenewlife 90day krbtgt/EXAMPLE.COM@EXAMPLE.COM
+
+kadmin.local:  modprinc -maxrenewlife 90day +allow_renewable hue/namenode01.hadoop@EXAMPLE.COM
+
+#CDH高可用
+yum -y install cloudera-manager-server cloudera-manager-daemons
+
+
+\cp -f mysql-connector-java-*.jar /usr/share/cmf/lib/
+
+vi /etc/cloudera-scm-server/db.properties
+
+sed -i '/^server_host=/c\server_host=10.1.20.54' /etc/cloudera-scm-agent/config.ini
+
+先mysql主从复制，宕机后按照cms，再改agent地址并重启agent，删除cm，添加新的cm，解除所有宕机角色，将HDFS HA转为SNN
+
+
+
+湘湖远程
+115.238.60.141:8107
+supconit.1
+
+
+先锋更改
+海宁电力部署
+广西文档
+林朋文件更新
