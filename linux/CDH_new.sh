@@ -160,6 +160,8 @@ Install_MYSQL5.6(){
 		systemctl start mysqld
 		systemctl enable mysqld >& /dev/null
 		\cp -f /root/yum_bak/* /etc/yum.repos.d/
+		#passwd=`grep 'temporary password' /var/log/mysqld.log |awk '{print $NF}'`
+		#echo -e  "${GREEN}MYSQL root用户密码为:$passwd${RES}"
 		echo -e  "${GREEN}请设置MYSQL root用户密码${RES}"
 		mysqladmin -u root password
 		echo -e  "${GREEN}执行完毕~${RES}"
