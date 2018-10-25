@@ -40,3 +40,6 @@ Firefox浏览器
 访问about:config 页面调整以下参数：
 1. network.negotiate-auth.trusted-uris 允许使用gssapi链接验证的地址
 2. network.auth.use-sspi 关闭sspi验证协议
+
+
+https://www.ibm.com/support/knowledgecenter/zh/SSAW57_8.5.5/com.ibm.websphere.nd.multiplatform.doc/ae/tsec_SPNEGO_config_web.html
