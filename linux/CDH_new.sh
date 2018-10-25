@@ -46,7 +46,7 @@ Install_JAVA(){
 		yum -y install wget
 		wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u171-b11/512cd62ec5174c3487ac17c61aaa89e8/jdk-8u171-linux-x64.tar.gz"
 	fi
-	mkdir -p /usr/java
+	mkdir -p /usr/java/
 	tar -xvf jdk-8u*.tar.gz -C /usr/java/
 	mv /usr/java/jdk1.8*/ /usr/java/jdk1.8/
 	if ! grep "JAVA_HOME=/usr/java/jdk1.8" /etc/profile >& /dev/null
