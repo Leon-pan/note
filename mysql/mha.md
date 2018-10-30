@@ -1,12 +1,12 @@
-#关闭selinux、防火墙、安装mysql配置主从复制
+# 关闭selinux、防火墙、安装mysql配置主从复制
 
 
 
-#主从复制：
-##主
-#修改配置文件
-[root@server ~]# vi /etc/my.cnf
-server-id = 1
+# 主从复制：
+## 主
+### 修改配置文件
+>root@server ~]# vi /etc/my.cnf
+>server-id = 1
 log-bin = mysql-bin
 binlog_format=MIXED
 
@@ -15,20 +15,20 @@ grep "temporary password" /var/log/mysqld.log
 mysql -uroot -p''
 SET PASSWORD = 
 
-##从
-#修改配置文件
+## 从
+### 修改配置文件
 [root@agent1 ~]# vi /etc/my.cnf
-#配置server-id,标识从服务器
+### 配置server-id,标识从服务器
 server-id=2
-#打开Mysql中继日志
+### 打开Mysql中继日志
 relay_log = mysql-relay-bin
-#设置从服务器只读权限
+### 设置从服务器只读权限
 read-only =1
-#打开从服务器的二进制日志
+### 打开从服务器的二进制日志
 log_bin =mysql-bin
-#使得更新的数据写进二进制日志中
+### #使得更新的数据写进二进制日志中
 log_slave_updates =1
-#混合日志模式
+### 混合日志模式
 binlog_format=MIXED
 
 systemctl start mysqld
@@ -37,10 +37,10 @@ mysql -uroot -p''
 SET PASSWORD = '';
 
 Mysql默认安装路径为/var/lib/mysql ,空间较小推荐将安装路径配置到存储较大的目录
-#新建目录
+## 新建目录
 [root@namenode ~]# mkdir /home/mysql_data
 
-#将/var/lib/mysql复制到新的目录
+### 将/var/lib/mysql复制到新的目录
 [root@namenode ~]# cp -a /var/lib/mysql /home/mysql_data/
 
 #修改mysql配置文件
