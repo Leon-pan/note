@@ -6,14 +6,20 @@
 ## 主
 ### 修改配置文件
 [root@server ~]# vi /etc/my.cnf
+
 server-id = 1
+
 log-bin = mysql-bin
+
 binlog_format=MIXED
 
 systemctl start mysqld
+
 grep "temporary password" /var/log/mysqld.log
-mysql -uroot -p''
-SET PASSWORD = 
+
+mysql -uroot -p'password'
+
+SET PASSWORD = 'new password';
 
 ## 从
 ### 修改配置文件
@@ -32,12 +38,18 @@ log_slave_updates =1
 binlog_format=MIXED
 
 systemctl start mysqld
+
 grep "temporary password" /var/log/mysqld.log
-mysql -uroot -p''
-SET PASSWORD = '';
+
+mysql -uroot -p'password'
+
+SET PASSWORD = 'new password';
+
+
+## 新建目录
 
 Mysql默认安装路径为/var/lib/mysql ,空间较小推荐将安装路径配置到存储较大的目录
-## 新建目录
+
 [root@namenode ~]# mkdir /home/mysql_data
 
 ### 将/var/lib/mysql复制到新的目录
@@ -54,26 +66,27 @@ Mysql默认安装路径为/var/lib/mysql ,空间较小推荐将安装路径配�
 
 ## 主
 ### 授权复制账户
-SQL>grant replication slave ,replication client on *.* to slave@'%' identified by 'Asqwop123#$';
+SQL>grant replication slave ,replication client on \*.\* to slave@'%' identified by 'password';
 
 ### 查看主服务器的状态
 SQL>show master status;
 
 ## 从
 ### 启动从服务器复制线程
-SQL>grant all privileges on *.* to 'slave'@'%' identified by 'Asqwop123#$' with grant option;
+SQL>grant all privileges on \*.\* to 'slave'@'%' identified by 'password' with grant option;
 
-SQL>change master to master_host='10.147.110.21', master_user='slave', 
-master_password='Asqwop123#$', 
+SQL>change master to master_host='IP', master_user='slave', 
+master_password='password', 
 master_log_file='mysql-bin.000003', 
 master_log_pos=510;
+
 SQL>start slave; 
 
 ### 查看从服务器状态 
 SQL>show slave status\G;
 
 
-show processlist;
+SQL>show processlist;
 
 # MHA
 ### 创建工作目录
@@ -89,37 +102,56 @@ mkdir -p /home/mha/
 yum -y install perl perl-ExtUtils-MakeMaker perl-ExtUtils-CBuilder perl-Parallel-ForkManager  perl-Config-Tiny perl-DBD-MySQL perl-Log-Dispatch 'perl(inc::Module::Install)' 'perl(Test::Without::Module)' 'perl(Log::Dispatch)'
 ### 编译节点端
 cd /home/mha4mysql-node-master/
-perl Makefile.PL 
+
+perl Makefile.PL
+
 make &&make install
 ### 编译管理端
 cd /home/mha4mysql-manager-master/
+
 perl Makefile.PL
+
 make &&make install
 
-
+### 复制配置文件
 cp /home/mha4mysql-manager-master/samples/conf/* /home/mha
 
+### 编辑配置文件
 vi /home/mha/app1.cnf
+
 [server default]
+
 manager_workdir=/var/log/masterha/app1
+
 manager_log=/var/log/masterha/app1/manager.log
+
 master_ip_failover_script=/home/mha4mysql-manager-master/samples/scripts/master_ip_failover
+
 master_binlog_dir=/home/mysql_data/mysql
+
 user=slave
-password=Asqwop123#$
+
+password=password
+
 ssh_user=root
 
 [server1]
-hostname=10.147.110.21
+
+hostname=IP
+
 candidate_master=1
 
 [server2]
-hostname=10.147.110.22
+
+hostname=IP
+
 candidate_master=1
+
 check_repl_delay=0
 
 [server3]
-hostname=10.147.110.23
+
+hostname=IP
 
 
 masterha_check_ssh --conf=/home/mha/app1.cnf
