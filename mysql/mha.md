@@ -90,34 +90,34 @@ SQL>show processlist;
 
 # MHA
 ### 创建工作目录
-mkdir -p /home/mha/
+[root@server ~]# mkdir -p /home/mha/
 ### 下载源码包
-### yum -y install wget unzip epel-release
-### wget https://codeload.github.com/yoshinorim/mha4mysql-node/zip/master -O /usr/local/src/mha-node.zip
-### wget https://codeload.github.com/yoshinorim/mha4mysql-manager/zip/master -O /usr/local/src/mha-manager.zip
+### [root@server ~]# yum -y install wget unzip epel-release
+### [root@server ~]# wget https://codeload.github.com/yoshinorim/mha4mysql-node/zip/master -O /usr/local/src/mha-node.zip
+### [root@server ~]# wget https://codeload.github.com/yoshinorim/mha4mysql-manager/zip/master -O /usr/local/src/mha-manager.zip
 ### 解压
-### unzip /usr/local/src/mha-manager.zip -d /usr/local/src
-### unzip /usr/local/src/mha-node.zip -d /usr/local/src
+### [root@server ~]# unzip /usr/local/src/mha-manager.zip -d /usr/local/src
+### [root@server ~]# unzip /usr/local/src/mha-node.zip -d /usr/local/src
 ### 安装perl及其相关依赖
-yum -y install perl perl-ExtUtils-MakeMaker perl-ExtUtils-CBuilder perl-Parallel-ForkManager  perl-Config-Tiny perl-DBD-MySQL perl-Log-Dispatch 'perl(inc::Module::Install)' 'perl(Test::Without::Module)' 'perl(Log::Dispatch)'
+[root@server ~]# yum -y install perl perl-ExtUtils-MakeMaker perl-ExtUtils-CBuilder perl-Parallel-ForkManager  perl-Config-Tiny perl-DBD-MySQL perl-Log-Dispatch 'perl(inc::Module::Install)' 'perl(Test::Without::Module)' 'perl(Log::Dispatch)'
 ### 编译节点端
-cd /home/mha4mysql-node-master/
+[root@server ~]# cd /home/mha4mysql-node-master/
 
-perl Makefile.PL
+[root@server ~]# perl Makefile.PL
 
-make &&make install
+[root@server ~]# make &&make install
 ### 编译管理端
-cd /home/mha4mysql-manager-master/
+[root@server ~]# cd /home/mha4mysql-manager-master/
 
-perl Makefile.PL
+[root@server ~]# perl Makefile.PL
 
-make &&make install
+[root@server ~]# make &&make install
 
 ### 复制配置文件
-cp /home/mha4mysql-manager-master/samples/conf/* /home/mha
+[root@server ~]# cp /home/mha4mysql-manager-master/samples/conf/* /home/mha
 
 ### 编辑配置文件
-vi /home/mha/app1.cnf
+[root@server ~]# vi /home/mha/app1.cnf
 
 [server default]
 
@@ -153,11 +153,11 @@ check_repl_delay=0
 
 hostname=IP
 
+### MHA测试
+[root@server ~]# masterha_check_ssh --conf=/home/mha/app1.cnf
 
-masterha_check_ssh --conf=/home/mha/app1.cnf
+[root@server ~]# masterha_check_repl --conf=/home/mha/app1.cnf
 
-masterha_check_repl --conf=/home/mha/app1.cnf
+[root@server ~]# masterha_manager --conf=/home/mha/app1.cnf
 
-masterha_manager --conf=/home/mha/app1.cnf
-
-masterha_check_status --conf=/home/mha/app1.cnf
+[root@server ~]# masterha_check_status --conf=/home/mha/app1.cnf
