@@ -175,3 +175,11 @@ http://qdj1212.zicp.io:9020/mxsmsystem
 
 梅西商贸海宁服务器地址
 122.225.95.186
+
+远程桌面连接时发生身份验证错误
+登录实例或者本地计算机。
+以管理员身份运行以下 PowerShell 脚本。
+New-Item -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name CredSSP -Force
+New-Item -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System\CredSSP -Name Parameters -Force
+Get-Item -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System\CredSSP\Parameters | New-ItemProperty -Name AllowEncryptionOracle -Value 2 -PropertyType DWORD -Force
+重启实例或者本地计算机。
