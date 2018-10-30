@@ -1,4 +1,4 @@
-# 关闭selinux、防火墙、安装mysql配置主从复制
+# 关闭selinux、防火墙、安装mysql
 
 
 
