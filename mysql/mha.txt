@@ -36,7 +36,21 @@ grep "temporary password" /var/log/mysqld.log
 mysql -uroot -p''
 SET PASSWORD = '';
 
+Mysql默认安装路径为/var/lib/mysql ,空间较小推荐将安装路径配置到存储较大的目录
+#新建目录
+[root@namenode ~]# mkdir /home/mysql_data
 
+#将/var/lib/mysql复制到新的目录
+[root@namenode ~]# cp -a /var/lib/mysql /home/mysql_data/
+
+#修改mysql配置文件
+[root@namenode ~]# vi /etc/my.cnf
+ 
+#建立mysql.sock软连接
+[root@namenode ~]# ln -s /home/mysql_data/mysql/mysql.sock /var/lib/mysql/mysql.sock
+
+#重新启动mysql
+[root@namenode ~]# systemctl start mysqld
 
 ##主
 #授权复制账户
