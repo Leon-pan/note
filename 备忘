@@ -17,6 +17,10 @@ redirectPort="8443"/>
 解决方法：在tomcat目录下conf/server.xml中，找到
 <Host name="localhost"  appBase="webapps" unpackWARs="true" autoDeploy="true">
 在下面添加一行<Context path="" docBase="web" reloadable="true" /> docBase里面写的是项目名
+bin/catalina.sh
+bin/setclasspath.sh
+export JAVA_HOME=/usr/java/jdk1.8/
+export JRE_HOME=/usr/java/jdk1.8//jre
 
 
 Asqwop123#$
@@ -44,6 +48,7 @@ oozie的主节点需要同时安装spark
 hive、oozie在特定情况下需要单独复制jdbc包
 zookeeper 缩减至 datanode[01-05]，不超过五台
 kafka 调整java Heap Size of Broker
+所有log路径改到/home/log下
 
 
 #Linux备份
