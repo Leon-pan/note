@@ -169,10 +169,6 @@ sed -i '/^server_host=/c\server_host=10.1.20.54' /etc/cloudera-scm-agent/config.
 先mysql主从复制，宕机后按照cms，再改agent地址并重启agent，删除cm，添加新的cm，解除所有宕机角色，将HDFS HA转为SNN
 
 
-湘湖远程
-115.238.60.141:8107
-supconit.1
-
 梅西商贸地址
 36.24.187.209:9020
 http://qdj1212.zicp.io:9020/mxsmsystem
