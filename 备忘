@@ -17,8 +17,10 @@ redirectPort="8443"/>
 解决方法：在tomcat目录下conf/server.xml中，找到
 <Host name="localhost"  appBase="webapps" unpackWARs="true" autoDeploy="true">
 在下面添加一行<Context path="" docBase="web" reloadable="true" /> docBase里面写的是项目名
-bin/catalina.sh
-bin/setclasspath.sh
+4.tomcat指定jdk路径
+编辑bin/catalina.sh
+编辑bin/setclasspath.sh
+在文件开头的空白处加上如下两句
 export JAVA_HOME=/usr/java/jdk1.8/
 export JRE_HOME=/usr/java/jdk1.8//jre
 
