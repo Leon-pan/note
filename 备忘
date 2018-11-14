@@ -90,6 +90,11 @@ label linux
         filename "/pxelinux.0";
 }
 
+#Linux iso挂载
+mount -o loop -t iso9660 /home/CentOS-7-x86_64-Everything-1708.iso /media
+vi /etc/yum.repos.d/CentOS-Media.repo
+yum --disablerepo=\* --enablerepo=c7-media [command]
+
 #时间设置
 timedatectl
 
