@@ -186,3 +186,8 @@ New-Item -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System -
 New-Item -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System\CredSSP -Name Parameters -Force
 Get-Item -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System\CredSSP\Parameters | New-ItemProperty -Name AllowEncryptionOracle -Value 2 -PropertyType DWORD -Force
 重启实例或者本地计算机。
+
+
+#recover.bat
+forfiles /p "D:\广西\app\apache-tomcat-8.0.53\webapps" /s /m *.* /c "cmd /c del /F /S /Q @path
+forfiles /p "D:\广西\app\apache-tomcat-8.0.53\webapps" /s /m hldc.war /c "cmd /c del /F /S /Q @path
