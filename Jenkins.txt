@@ -12,3 +12,4 @@ Expand-Archive -Path $Source -DestinationPath $Destination -Force:$Overwrite
 启动tomcat
 cd D:\安装包\apache-tomcat-7.0.76\bin\
 .\startup.bat
+exit
