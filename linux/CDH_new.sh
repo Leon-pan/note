@@ -21,8 +21,8 @@ Init(){
 	chmod +x /etc/rc.d/rc.local
 
 	#不使用swap分区
-	sysctl vm.swappiness=0 > /dev/null
-	echo "vm.swappiness=0" >> /etc/sysctl.conf
+	sysctl vm.swappiness=1 > /dev/null
+	echo "vm.swappiness=1" >> /etc/sysctl.conf
 	echo -e  "${GREEN}执行完毕~${RES}"
 }
 
