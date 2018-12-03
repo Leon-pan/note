@@ -196,3 +196,7 @@ Get-Item -Path HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\System\C
 #recover.bat
 forfiles /p "D:\广西\app\apache-tomcat-8.0.53\webapps" /s /m *.* /c "cmd /c del /F /S /Q @path
 forfiles /p "D:\广西\app\apache-tomcat-8.0.53\webapps" /s /m hldc.war /c "cmd /c del /F /S /Q @path
+
+
+MHA my.cnf配置验证
+rabbitMQ集群长域名验证
