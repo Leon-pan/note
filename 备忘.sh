@@ -200,3 +200,15 @@ forfiles /p "D:\广西\app\apache-tomcat-8.0.53\webapps" /s /m hldc.war /c "cmd 
 
 MHA my.cnf配置验证
 rabbitMQ集群长域名验证
+
+
+yum install gitlab-ce-9.5.10-ce.0.el7.x86_64
+
+yum install gitlab-ce-10.8.7-ce.0.el7.x86_64
+
+yum install gitlab-ce-11.3.4-ce.0.el7.x86_64
+
+vi /etc/gitlab/gitlab.rb
+gitlab_rails['gitlab_default_projects_features_builds'] = false
+gitlab-ctl reconfigure
+设置取消持续集成和部署
