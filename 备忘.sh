@@ -51,6 +51,9 @@ hive、oozie在特定情况下需要单独复制jdbc包
 zookeeper 缩减至 datanode[01-05]，不超过五台
 kafka 调整java Heap Size of Broker
 所有log路径改到/home/log下
+HDFS开启启用 HDFS 快速读取
+ZK minSessionTimeout 4000 → 16000；maxSessionTimeout 60000 → 160000（minSessionTimeout=2*tickTime, maxSessionTimeout=20*tickTime）
+
 
 
 #Linux备份
