@@ -53,7 +53,10 @@ kafka 调整java Heap Size of Broker
 所有log路径改到/home/log下
 HDFS开启启用 HDFS 快速读取
 ZK minSessionTimeout 4000 → 16000；maxSessionTimeout 60000 → 160000（minSessionTimeout=2*tickTime, maxSessionTimeout=20*tickTime）
-
+Hbase zookeeper.session.timeout → 20*tickTime
+Hbase GC增大 1G → 8G
+#HBase Region Server 刷新队列监控阈值 10 → 15
+HBase hbase.regionserver.optionalcacheflushinterval 5400000
 
 
 #Linux备份
@@ -201,10 +204,7 @@ forfiles /p "D:\广西\app\apache-tomcat-8.0.53\webapps" /s /m *.* /c "cmd /c de
 forfiles /p "D:\广西\app\apache-tomcat-8.0.53\webapps" /s /m hldc.war /c "cmd /c del /F /S /Q @path
 
 
-MHA my.cnf配置验证
-rabbitMQ集群长域名验证
-
-
+#GitLab升级
 yum install gitlab-ce-9.5.10-ce.0.el7.x86_64
 
 yum install gitlab-ce-10.8.7-ce.0.el7.x86_64
@@ -215,3 +215,17 @@ vi /etc/gitlab/gitlab.rb
 gitlab_rails['gitlab_default_projects_features_builds'] = false
 gitlab-ctl reconfigure
 设置取消持续集成和部署
+
+更改存储路径
+gitlab-ctl stop
+mkdir /home/git
+rsync -av /var/opt/gitlab/git-data/repositories /home/git/git-data/
+vi /etc/gitlab/gitlab.rb
+git_data_dirs({ "default" => { "path" => "/home/git/git-data", 'gitaly_address' => 'unix:/var/opt/gitlab/gitaly/gitaly.socket' } })
+gitlab-ctl upgrade
+ls /home/git/git-data/
+gitlab-ctl start
+
+
+#排序命令
+grep 'org.apache.hadoop.hbase.regionserver.HRegionServer: datanode07.hadoop' /home/log/hbase/hbase-cmf-hbase-REGIONSERVER-datanode07.hadoop.log.out |grep '2019-01-02 05'| awk -F 'of' '{print$2}' | awk -F ',' '{print$1}'|sort |uniq -c
