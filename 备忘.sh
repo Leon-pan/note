@@ -45,18 +45,17 @@ grant all privileges on sentry.* to 'sentry'@'%' identified by 'sentry_123#$';
 grant all privileges on sentry.* to 'sentry'@'localhost' identified by 'sentry_123#$';
 
 
+#CDH
 mysql5.7 → mysql5.6
 oozie的主节点需要同时安装spark
 hive、oozie在特定情况下需要单独复制jdbc包
 zookeeper 缩减至 datanode[01-05]，不超过五台
 kafka 调整java Heap Size of Broker
-所有log路径改到/home/log下
-HDFS开启启用 HDFS 快速读取
-ZK minSessionTimeout 4000 → 16000；maxSessionTimeout 60000 → 160000（minSessionTimeout=2*tickTime, maxSessionTimeout=20*tickTime）
-Hbase zookeeper.session.timeout → 20*tickTime
-Hbase GC增大 1G → 8G
-#HBase Region Server 刷新队列监控阈值 10 → 15
-HBase hbase.regionserver.optionalcacheflushinterval 5400000
+#cm目录迁移
+#\cp -ar /var/lib/cloudera-scm-eventserver /home/
+#\cp -ar /var/lib/cloudera-host-monitor /home/
+#\cp -ar /var/lib/cloudera-service-monitor /home/
+打印GC日志-Xloggc:/var/log/hbase/hbase-gc.log -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -XX:+PrintAdaptiveSizePolicy
 
 
 #Linux备份
@@ -229,3 +228,17 @@ gitlab-ctl start
 
 #排序命令
 grep 'org.apache.hadoop.hbase.regionserver.HRegionServer: datanode07.hadoop' /home/log/hbase/hbase-cmf-hbase-REGIONSERVER-datanode07.hadoop.log.out |grep '2019-01-02 05'| awk -F 'of' '{print$2}' | awk -F ',' '{print$1}'|sort |uniq -c
+
+
+#HBase推荐java参数
+export HBASE_MASTER_OPTS="$HBASE_MASTER_OPTS -Xmx16g -Xms16g -Xmn4g -Xss256k -XX:MaxPermSize=256m -XX:SurvivorRatio=2 -XX:+UseParNewGC -XX:ParallelGCThreads=12 -XX:+UseConcMarkSweepG
+C -XX:ParallelCMSThreads=16 -XX:+CMSParallelRemarkEnabled -XX:MaxTenuringThreshold=15 -XX:+UseCMSCompactAtFullCollection  -XX:+UseCMSInitiatingOccupancyOnly  -XX:CMSInitiatingOccupan
+cyFraction=70 -XX:-DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -Xloggc:/app/hbase/log/gc/gc-hbase-
+hmaster-`hostname`.log"
+
+export HBASE_REGIONSERVER_OPTS="$HBASE_REGIONSERVER_OPTS  -XX:+UseG1GC -Xmx30g -Xms30g -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:-ResizePLAB -XX:+ParallelRefProcE
+nabled -XX:+AlwaysPreTouch -XX:ParallelGCThreads=16 -XX:ConcGCThreads=8 -XX:G1HeapWastePercent=3 -XX:InitiatingHeapOccupancyPercent=35 -XX:G1MixedGCLiveThresholdPercent=85 -XX:MaxDir
+ectMemorySize=25g -XX:G1NewSizePercent=1 -XX:G1MaxNewSizePercent=15  -verbose:gc -XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintGCApplicationStoppedTime -XX:+PrintHeapAtGC -XX:+PrintGCDa
+teStamps -XX:+PrintAdaptiveSizePolicy -XX:PrintSafepointStatisticsCount=1 -XX:PrintFLSStatistics=1 -Xloggc:/app/hbase/log/gc/gc-hbase-regionserver-`hostname`.log"
+
+-Xmx32g -Xms32g -Xmn6g -Xss256k -XX:MaxPermSize=384m -XX:SurvivorRatio=6 -XX:+UseParNewGC -XX:ParallelGCThreads=10 -XX:+UseConcMarkSweepGC -XX:ParallelCMSThreads=16 -XX:+CMSParallelRemarkEnabled -XX:+UseCMSCompactAtFullCollection -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70 -XX:CMSMaxAbortablePrecleanTime=5000 -XX:CMSFullGCsBeforeCompaction=5 -XX:+CMSClassUnloadingEnabled -XX:+HeapDumpOnOutOfMemoryError
