@@ -51,10 +51,6 @@ oozie的主节点需要同时安装spark
 hive、oozie在特定情况下需要单独复制jdbc包
 zookeeper 缩减至 datanode[01-05]，不超过五台
 kafka 调整java Heap Size of Broker
-#cm目录迁移
-#\cp -ar /var/lib/cloudera-scm-eventserver /home/
-#\cp -ar /var/lib/cloudera-host-monitor /home/
-#\cp -ar /var/lib/cloudera-service-monitor /home/
 打印GC日志-Xloggc:/var/log/hbase/hbase-gc.log -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -XX:+PrintAdaptiveSizePolicy
 
 
