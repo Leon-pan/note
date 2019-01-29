@@ -29,18 +29,23 @@ Asqwop123#$
 
 grant all privileges on *.* to 'root'@'%' identified by 'Asqwop123#$';
 
+create database hive default character set utf8;
 grant all privileges on hive.* to 'hive'@'%' identified by 'hive_123#$';
 grant all privileges on hive.* to 'hive'@'localhost' identified by 'hive_123#$';
 
+create database monitor default character set utf8;
 grant all privileges on monitor.* to 'monitor'@'%' identified by 'monitor_123#$';
 grant all privileges on monitor.* to 'monitor'@'localhost' identified by 'monitor_123#$';
 
+create database oozie default character set utf8;
 grant all privileges on oozie.* to 'oozie'@'%' identified by 'oozie_123#$';
 grant all privileges on oozie.* to 'oozie'@'localhost' identified by 'oozie_123#$';
 
+create database hue default character set utf8;
 grant all privileges on hue.* to 'hue'@'%' identified by 'hue_123#$';
 grant all privileges on hue.* to 'hue'@'localhost' identified by 'hue_123#$';
 
+create database sentry default character set utf8;
 grant all privileges on sentry.* to 'sentry'@'%' identified by 'sentry_123#$';
 grant all privileges on sentry.* to 'sentry'@'localhost' identified by 'sentry_123#$';
 
@@ -146,6 +151,8 @@ sudo hadoop jar /opt/cloudera/parcels/CDH-5.14.2-1.cdh5.14.2.p0.3/lib/hadoop-0.2
 
 
 sudo hadoop jar /opt/cloudera/parcels/CDH-5.14.2-1.cdh5.14.2.p0.3/lib/hadoop-0.20-mapreduce/hadoop-test-mr1.jar TestDFSIO -clean
+#hdfs拷贝
+hadoop distcp -D ipc.client.fallback-to-simple-auth-allowed=true hdfs://source_path/ hdfs://destination_path/
 
 
 #Kerberos认证
@@ -174,7 +181,7 @@ vi /etc/cloudera-scm-server/db.properties
 
 sed -i '/^server_host=/c\server_host=10.1.20.54' /etc/cloudera-scm-agent/config.ini
 
-先mysql主从复制，宕机后按照cms，再改agent地址并重启agent，删除cm，添加新的cm，解除所有宕机角色，将HDFS HA转为SNN
+先mysql主从复制，宕机后安装cms，再改agent地址并重启agent，删除cm，添加新的cm，解除所有宕机角色，将HDFS HA转为SNN
 
 
 梅西商贸地址
@@ -227,14 +234,13 @@ grep 'org.apache.hadoop.hbase.regionserver.HRegionServer: datanode07.hadoop' /ho
 
 
 #HBase推荐java参数
-export HBASE_MASTER_OPTS="$HBASE_MASTER_OPTS -Xmx16g -Xms16g -Xmn4g -Xss256k -XX:MaxPermSize=256m -XX:SurvivorRatio=2 -XX:+UseParNewGC -XX:ParallelGCThreads=12 -XX:+UseConcMarkSweepG
-C -XX:ParallelCMSThreads=16 -XX:+CMSParallelRemarkEnabled -XX:MaxTenuringThreshold=15 -XX:+UseCMSCompactAtFullCollection  -XX:+UseCMSInitiatingOccupancyOnly  -XX:CMSInitiatingOccupan
-cyFraction=70 -XX:-DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -Xloggc:/app/hbase/log/gc/gc-hbase-
-hmaster-`hostname`.log"
+MASTER  -Xmx16g -Xms16g -Xmn4g -Xss256k -XX:MaxPermSize=256m -XX:SurvivorRatio=2 -XX:+UseParNewGC -XX:ParallelGCThreads=12 -XX:+UseConcMarkSweepGC -XX:ParallelCMSThreads=16 -XX:+CMSParallelRemarkEnabled -XX:MaxTenuringThreshold=15 -XX:+UseCMSCompactAtFullCollection  -XX:+UseCMSInitiatingOccupancyOnly  -XX:CMSInitiatingOccupancyFraction=70 -XX:-DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -Xloggc:/app/hbase/log/gc/gc-hbase-hmaster-`hostname`.log"
 
-export HBASE_REGIONSERVER_OPTS="$HBASE_REGIONSERVER_OPTS  -XX:+UseG1GC -Xmx30g -Xms30g -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:-ResizePLAB -XX:+ParallelRefProcE
+REGIONSERVER  -XX:+UseG1GC -Xmx30g -Xms30g -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:-ResizePLAB -XX:+ParallelRefProcE
 nabled -XX:+AlwaysPreTouch -XX:ParallelGCThreads=16 -XX:ConcGCThreads=8 -XX:G1HeapWastePercent=3 -XX:InitiatingHeapOccupancyPercent=35 -XX:G1MixedGCLiveThresholdPercent=85 -XX:MaxDir
 ectMemorySize=25g -XX:G1NewSizePercent=1 -XX:G1MaxNewSizePercent=15  -verbose:gc -XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintGCApplicationStoppedTime -XX:+PrintHeapAtGC -XX:+PrintGCDa
 teStamps -XX:+PrintAdaptiveSizePolicy -XX:PrintSafepointStatisticsCount=1 -XX:PrintFLSStatistics=1 -Xloggc:/app/hbase/log/gc/gc-hbase-regionserver-`hostname`.log"
 
--Xmx32g -Xms32g -Xmn6g -Xss256k -XX:MaxPermSize=384m -XX:SurvivorRatio=6 -XX:+UseParNewGC -XX:ParallelGCThreads=10 -XX:+UseConcMarkSweepGC -XX:ParallelCMSThreads=16 -XX:+CMSParallelRemarkEnabled -XX:+UseCMSCompactAtFullCollection -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70 -XX:CMSMaxAbortablePrecleanTime=5000 -XX:CMSFullGCsBeforeCompaction=5 -XX:+CMSClassUnloadingEnabled -XX:+HeapDumpOnOutOfMemoryError
+大神推荐-Xmx32g -Xms32g -Xmn6g -Xss256k -XX:MaxPermSize=384m -XX:SurvivorRatio=6 -XX:+UseParNewGC -XX:ParallelGCThreads=10 -XX:+UseConcMarkSweepGC -XX:ParallelCMSThreads=16 -XX:+CMSParallelRemarkEnabled -XX:+UseCMSCompactAtFullCollection -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70 -XX:CMSMaxAbortablePrecleanTime=5000 -XX:CMSFullGCsBeforeCompaction=5 -XX:+CMSClassUnloadingEnabled -XX:+HeapDumpOnOutOfMemoryError
+
+-XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSParallelRemarkEnabled -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp/hbase_hbase-REGIONSERVER-b145f6a9b79cc72a83bcae28ddc40d45_pid27144.hprof -XX:InitialHeapSize=33285996544 -XX:MaxHeapSize=33285996544 -XX:MaxNewSize=2878971904 -XX:MaxTenuringThreshold=6 -XX:NewSize=2878971904 -XX:OldPLABSize=16 -XX:OldSize=5757943808 -XX:OnOutOfMemoryError=kill -9 %p -XX:OnOutOfMemoryError=/usr/lib64/cmf/service/common/killparent.sh -XX:+PrintAdaptiveSizePolicy -XX:+PrintGC -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:ReservedCodeCacheSize=268435456 -XX:+UseCompressedClassPointers -XX:+UseCompressedOops -XX:+UseConcMarkSweepGC -XX:+UseParNewGC 
