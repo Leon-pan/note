@@ -23,6 +23,15 @@ redirectPort="8443"/>
 在文件开头的空白处加上如下两句
 export JAVA_HOME=/usr/java/jdk1.8/
 export JRE_HOME=/usr/java/jdk1.8//jre
+5.tomcat开机自启
+vi /home/apache-tomcat-8.0.53/bin/startup.sh
+export JAVA_HOME=/usr/java/jdk1.8
+export JRE_HOME=${JAVA_HOME}/jre
+export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
+export PATH=${JAVA_HOME}/bin:$PATH
+export CATALINA_HOME=/home/apache-tomcat-8.0.53
+vi /etc/rc.d/rc.local
+chmod +x /etc/rc.d/rc.local
 
 
 Asqwop123#$
