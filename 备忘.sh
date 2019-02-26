@@ -29,7 +29,7 @@ export JAVA_HOME=/usr/java/jdk1.8
 export JRE_HOME=${JAVA_HOME}/jre
 export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
 export PATH=${JAVA_HOME}/bin:$PATH
-export CATALINA_HOME=/home/apache-tomcat-8.0.53
+#export CATALINA_HOME=/home/apache-tomcat-8.0.53
 vi /etc/rc.d/rc.local
 chmod +x /etc/rc.d/rc.local
 
