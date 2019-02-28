@@ -253,9 +253,31 @@ LEFT JOIN b ON a.create_by = b.id;
 #HBase推荐java参数
 MASTER  -Xmx16g -Xms16g -Xmn4g -Xss256k -XX:MaxPermSize=256m -XX:SurvivorRatio=2 -XX:+UseParNewGC -XX:ParallelGCThreads=12 -XX:+UseConcMarkSweepGC -XX:ParallelCMSThreads=16 -XX:+CMSParallelRemarkEnabled -XX:MaxTenuringThreshold=15 -XX:+UseCMSCompactAtFullCollection  -XX:+UseCMSInitiatingOccupancyOnly  -XX:CMSInitiatingOccupancyFraction=70 -XX:-DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -Xloggc:/app/hbase/log/gc/gc-hbase-hmaster-`hostname`.log"
 
-REGIONSERVER  -XX:+UseG1GC -Xmx30g -Xms30g -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:-ResizePLAB -XX:+ParallelRefProcE
-nabled -XX:+AlwaysPreTouch -XX:ParallelGCThreads=16 -XX:ConcGCThreads=8 -XX:G1HeapWastePercent=3 -XX:InitiatingHeapOccupancyPercent=35 -XX:G1MixedGCLiveThresholdPercent=85 -XX:MaxDir
-ectMemorySize=25g -XX:G1NewSizePercent=1 -XX:G1MaxNewSizePercent=15  -verbose:gc -XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintGCApplicationStoppedTime -XX:+PrintHeapAtGC -XX:+PrintGCDa
-teStamps -XX:+PrintAdaptiveSizePolicy -XX:PrintSafepointStatisticsCount=1 -XX:PrintFLSStatistics=1 -Xloggc:/app/hbase/log/gc/gc-hbase-regionserver-`hostname`.log"
+REGIONSERVER  -XX:+UseG1GC -Xmx30g -Xms30g -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:-ResizePLAB -XX:+ParallelRefProcEnabled -XX:+AlwaysPreTouch -XX:ParallelGCThreads=16 -XX:ConcGCThreads=8 -XX:G1HeapWastePercent=3 -XX:InitiatingHeapOccupancyPercent=35 -XX:G1MixedGCLiveThresholdPercent=85 -XX:MaxDirectMemorySize=25g -XX:G1NewSizePercent=1 -XX:G1MaxNewSizePercent=15 -verbose:gc -XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintGCApplicationStoppedTime -XX:+PrintHeapAtGC -XX:+PrintGCDateStamps -XX:+PrintAdaptiveSizePolicy -XX:PrintSafepointStatisticsCount=1 -XX:PrintFLSStatistics=1 -Xloggc:/app/hbase/log/gc/gc-hbase-regionserver-`hostname`.log"
 
 大神推荐-Xmx32g -Xms32g -Xmn6g -Xss256k -XX:MaxPermSize=384m -XX:SurvivorRatio=6 -XX:+UseParNewGC -XX:ParallelGCThreads=10 -XX:+UseConcMarkSweepGC -XX:ParallelCMSThreads=16 -XX:+CMSParallelRemarkEnabled -XX:+UseCMSCompactAtFullCollection -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70 -XX:CMSMaxAbortablePrecleanTime=5000 -XX:CMSFullGCsBeforeCompaction=5 -XX:+CMSClassUnloadingEnabled -XX:+HeapDumpOnOutOfMemoryError
+
+#Hbase G1垃圾回收策略
+-XX:+UseG1GC
+-XX:+UnlockExperimentalVMOptions    //解锁jdk低版本中一些参数
+-XX:MaxGCPauseMillis=100    //设置一个期望的最大GC暂停时间，这是一个柔性的目标，JVM会尽力去达到这个目标
+-XX:-ResizePLAB     //线程较多时关闭PLAB的大小调整，以避免大量的线程通信所导致的性能下降
+-XX:+ParallelRefProcEnabled     //并行引用处理，减少remark阶段处理发现的引用过程时间
+-XX:+AlwaysPreTouch     //为JVM分配指定的内存大小，而不是等JVM访问这些内存的时候,才真正分配
+-XX:ParallelGCThreads=33    //并行垃圾线程数,8+（逻辑处理器-8）（5/8）该公式由Oracle推荐。
+-XX:ConcGCThreads=16     //并发标记阶段线程数,默认情况下G1垃圾收集器会将这个线程总数设置为1/4的ParallelGCThreads
+-XX:G1HeapWastePercent=3    //可回收的内存超过这个比例时，开始mixed gc的周期
+-XX:InitiatingHeapOccupancyPercent=35   //如果整个堆的使用率超过这个值，G1会触发一次并发周期。
+-XX:G1MixedGCLiveThresholdPercent=85    //如果一个分区中的存活对象比例超过这个值，就不会被挑选为垃圾分区，这个参数的值越大，某个分区越容易被当做是垃圾分区
+-XX:MaxDirectMemorySize=25g      //堆外内存最大大小，默认与最大堆栈大小相同
+-XX:G1NewSizePercent=3      //新生代占堆的最小比例
+-XX:G1MaxNewSizePercent=20      //新生代占堆的最大比例
+-XX:+PrintGC
+-XX:+PrintGCDetails
+-XX:+PrintGCApplicationStoppedTime
+-XX:+PrintHeapAtGC
+-XX:+PrintGCDateStamps
+-XX:+PrintAdaptiveSizePolicy
+-XX:PrintSafepointStatisticsCount=1
+-XX:PrintFLSStatistics=1
+-Xloggc:/var/log/hbase/hbase-gc-%t-%p.log
