@@ -250,12 +250,12 @@ FROM
 	a
 LEFT JOIN b ON a.create_by = b.id;
 
-#HBase推荐java参数
+#HBase社区推荐java参数
 MASTER  -Xmx16g -Xms16g -Xmn4g -Xss256k -XX:MaxPermSize=256m -XX:SurvivorRatio=2 -XX:+UseParNewGC -XX:ParallelGCThreads=12 -XX:+UseConcMarkSweepGC -XX:ParallelCMSThreads=16 -XX:+CMSParallelRemarkEnabled -XX:MaxTenuringThreshold=15 -XX:+UseCMSCompactAtFullCollection  -XX:+UseCMSInitiatingOccupancyOnly  -XX:CMSInitiatingOccupancyFraction=70 -XX:-DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -Xloggc:/app/hbase/log/gc/gc-hbase-hmaster-`hostname`.log"
 
 REGIONSERVER  -XX:+UseG1GC -Xmx30g -Xms30g -XX:+UnlockExperimentalVMOptions -XX:MaxGCPauseMillis=100 -XX:-ResizePLAB -XX:+ParallelRefProcEnabled -XX:+AlwaysPreTouch -XX:ParallelGCThreads=16 -XX:ConcGCThreads=8 -XX:G1HeapWastePercent=3 -XX:InitiatingHeapOccupancyPercent=35 -XX:G1MixedGCLiveThresholdPercent=85 -XX:MaxDirectMemorySize=25g -XX:G1NewSizePercent=1 -XX:G1MaxNewSizePercent=15 -verbose:gc -XX:+PrintGC -XX:+PrintGCDetails -XX:+PrintGCApplicationStoppedTime -XX:+PrintHeapAtGC -XX:+PrintGCDateStamps -XX:+PrintAdaptiveSizePolicy -XX:PrintSafepointStatisticsCount=1 -XX:PrintFLSStatistics=1 -Xloggc:/app/hbase/log/gc/gc-hbase-regionserver-`hostname`.log"
 
-大神推荐-Xmx32g -Xms32g -Xmn6g -Xss256k -XX:MaxPermSize=384m -XX:SurvivorRatio=6 -XX:+UseParNewGC -XX:ParallelGCThreads=10 -XX:+UseConcMarkSweepGC -XX:ParallelCMSThreads=16 -XX:+CMSParallelRemarkEnabled -XX:+UseCMSCompactAtFullCollection -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70 -XX:CMSMaxAbortablePrecleanTime=5000 -XX:CMSFullGCsBeforeCompaction=5 -XX:+CMSClassUnloadingEnabled -XX:+HeapDumpOnOutOfMemoryError
+REGIONSERVER -Xmx32g -Xms32g -Xmn6g -Xss256k -XX:MaxPermSize=384m -XX:SurvivorRatio=6 -XX:+UseParNewGC -XX:ParallelGCThreads=10 -XX:+UseConcMarkSweepGC -XX:ParallelCMSThreads=16 -XX:+CMSParallelRemarkEnabled -XX:+UseCMSCompactAtFullCollection -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70 -XX:CMSMaxAbortablePrecleanTime=5000 -XX:CMSFullGCsBeforeCompaction=5 -XX:+CMSClassUnloadingEnabled -XX:+HeapDumpOnOutOfMemoryError
 
 #Hbase G1垃圾回收策略
 -XX:+UseG1GC
