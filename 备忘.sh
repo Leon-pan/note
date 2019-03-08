@@ -257,6 +257,8 @@ REGIONSERVER  -XX:+UseG1GC -Xmx30g -Xms30g -XX:+UnlockExperimentalVMOptions -XX:
 
 REGIONSERVER -Xmx32g -Xms32g -Xmn6g -Xss256k -XX:MaxPermSize=384m -XX:SurvivorRatio=6 -XX:+UseParNewGC -XX:ParallelGCThreads=10 -XX:+UseConcMarkSweepGC -XX:ParallelCMSThreads=16 -XX:+CMSParallelRemarkEnabled -XX:+UseCMSCompactAtFullCollection -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70 -XX:CMSMaxAbortablePrecleanTime=5000 -XX:CMSFullGCsBeforeCompaction=5 -XX:+CMSClassUnloadingEnabled -XX:+HeapDumpOnOutOfMemoryError
 
+REGIONSERVER -Xmx12g -Xms12g -Xmn3g  -Xss256k -XX:MetaspaceSize=128m -XX:SurvivorRatio=6 -XX:+UseParNewGC  -XX:ParallelGCThreads=10 -XX:+UseConcMarkSweepGC -XX:ParallelCMSThreads=16 -XX:+CMSParallelRemarkEnabled -XX:+UseCMSCompactAtFullCollection -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70 -XX:CMSMaxAbortablePrecleanTime=500 -XX:CMSFullGCsBeforeCompaction=5 -XX:+CMSClassUnloadingEnabled -XX:+HeapDumpOnOutOfMemoryError
+
 #Hbase G1垃圾回收策略
 -XX:+UseG1GC
 -XX:+UnlockExperimentalVMOptions    //解锁jdk低版本中一些参数
@@ -281,3 +283,6 @@ REGIONSERVER -Xmx32g -Xms32g -Xmn6g -Xss256k -XX:MaxPermSize=384m -XX:SurvivorRa
 -XX:PrintSafepointStatisticsCount=1
 -XX:PrintFLSStatistics=1
 -Xloggc:/var/log/hbase/hbase-gc-%t-%p.log
+
+
+echo -e 'root　　　　　soft     nproc    65536\nroot              hard    nproc    65536  \nroot              soft     nofile    65536\nroot              hard    nofile     65536' >> /etc/security/limits.conf
