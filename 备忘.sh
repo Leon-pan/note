@@ -68,6 +68,10 @@ kafka 调整java Heap Size of Broker
 打印GC日志-Xloggc:/var/log/hbase/hbase-gc.log -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -XX:+PrintAdaptiveSizePolicy
 
 
+#chrome插件
+Check My Links、EverSync、LinkMiner、Wappalyzer、FireShot、猫抓
+
+
 #Linux备份
 cd /home
 tar cvpzf backup.tar.gz / --exclude=/proc --exclude=/home/backup.tar.gz --exclude=/mnt --exclude=/sys
@@ -286,3 +290,13 @@ REGIONSERVER -Xmx12g -Xms12g -Xmn3g  -Xss256k -XX:MetaspaceSize=128m -XX:Survivo
 
 
 echo -e 'root　　　　　soft     nproc    65536\nroot              hard    nproc    65536  \nroot              soft     nofile    65536\nroot              hard    nofile     65536' >> /etc/security/limits.conf
+
+出问题的是DM_GLYHYXGL.F_GSCKSFXX_OJ_GL_TC
+先合并DM_GLYHYXGL.F_GSSFCLCZXX_OJ_GL_TE
+
+
+起因：datanode02 IO过高导致cloudera-scm-agent访问1006端口获取信息超时
+
+select count(1)该表后问题复现
+原因：datanode02 IO高的原因是三张较大的表去年11月份起没有修改，并且无小型合并。存储文件较多且碎片化，执行select count(1)命令时，引起IO负载过高,fetching metrics at 'http://datanode02.hadoop:1006/jmx' timed out
+解决方法：针对较大的表执行major合并后，存储文件碎片消失，IO下降，问题消失
