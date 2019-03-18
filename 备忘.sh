@@ -3,6 +3,10 @@ export JAVA_HOME=/usr/java/jdk1.8
 export JRE_HOME=${JAVA_HOME}/jre
 export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
 export PATH=${JAVA_HOME}/bin:$PATH
+#Windows JAVA_PATH
+JAVA_HOME=JDK安装的绝对路径
+CLASSPATH=.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;
+Path=%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin
 
 
 1.高版本无法识别URL中的中文
@@ -66,7 +70,8 @@ hive、oozie在特定情况下需要单独复制jdbc包
 zookeeper 缩减至 datanode[01-05]，不超过五台
 kafka 调整java Heap Size of Broker
 打印GC日志-Xloggc:/var/log/hbase/hbase-gc.log -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -XX:+PrintAdaptiveSizePolicy
-
+#获取指定服务的元数据信息
+http://<cmserver>:7180/api/v10/clusters/<cluster_name>/services/<service_name>/config
 
 #chrome插件
 Check My Links、EverSync、LinkMiner、Wappalyzer、FireShot、猫抓
