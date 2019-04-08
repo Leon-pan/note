@@ -142,6 +142,7 @@ hadoop fsck /
 hadoop fsck -locations
 
 hadoop fs -setrep -w -R 2 /
+hadoop fs -setrep 2 /
 
 dfs.replication
 
