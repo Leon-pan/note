@@ -306,3 +306,16 @@ echo -e 'root　　　　　soft     nproc    65536\nroot              hard    n
 select count(1)该表后问题复现
 原因：datanode02 IO高的原因是三张较大的表去年11月份起没有修改，并且无小型合并。存储文件较多且碎片化，执行select count(1)命令时，引起IO负载过高,fetching metrics at 'http://datanode02.hadoop:1006/jmx' timed out
 解决方法：针对较大的表执行major合并后，存储文件碎片消失，IO下降，问题消失
+
+
+wget -c -r -np -k -L -p -nc --reject=html https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/5/
+
+参数说明：
+-c：继续执行上次终端的任务
+-L：仅顺着关联的连接
+-r：递归下载方式
+-nc：文件存在时，下载文件不覆盖原有文件
+-np：不查询父目录
+-p：下载页面所需所有资源，如图片、声音等
+-k：将下载内容中的链接转换为本地连接
+--reject：排除html文件类型
