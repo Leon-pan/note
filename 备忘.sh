@@ -38,8 +38,6 @@ vi /etc/rc.d/rc.local
 chmod +x /etc/rc.d/rc.local
 
 
-Asqwop123#$
-
 grant all privileges on *.* to 'root'@'%' identified by 'Asqwop123#$';
 
 create database hive default character set utf8;
@@ -156,20 +154,18 @@ dbca -silent -deleteDatabase -sourceDB orcl -sid orcl -sysDBAUserName orcl -sysD
 
 
 #Hadoop类测试
-/opt/cloudera/parcels/CDH-5.14.2-1.cdh5.14.2.p0.3/lib/hadoop-0.20-mapreduce/hadoop-examples-2.6.0-mr1-cdh5.14.2.jar
-/opt/cloudera/parcels/CDH-5.14.2-1.cdh5.14.2.p0.3/lib/hadoop-0.20-mapreduce/hadoop-examples.jar
-/opt/cloudera/parcels/CDH-5.14.2-1.cdh5.14.2.p0.3/lib/hadoop-0.20-mapreduce/hadoop-examples-mr1.jar
-/opt/cloudera/parcels/CDH-5.14.2-1.cdh5.14.2.p0.3/lib/hadoop-0.20-mapreduce/hadoop-test-2.6.0-mr1-cdh5.14.2.jar
-/opt/cloudera/parcels/CDH-5.14.2-1.cdh5.14.2.p0.3/lib/hadoop-0.20-mapreduce/hadoop-test-mr1.jar
+sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-0.20-mapreduce/hadoop-test-mr1.jar
+sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-0.20-mapreduce/hadoop-examples.jar
+#写
+sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-0.20-mapreduce/hadoop-test-mr1.jar TestDFSIO -write -nrFiles 10 -fileSize 1000
+#读
+sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-0.20-mapreduce/hadoop-test-mr1.jar TestDFSIO -read -nrFiles 10 -fileSize 1000
+#清理
+sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-0.20-mapreduce/hadoop-test-mr1.jar TestDFSIO -clean
+#π
+sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-0.20-mapreduce/hadoop-examples.jar pi 10 100
 
 
-sudo hadoop jar /opt/cloudera/parcels/CDH-5.14.2-1.cdh5.14.2.p0.3/lib/hadoop-0.20-mapreduce/hadoop-test-mr1.jar TestDFSIO -write -nrFiles 10 -fileSize 1000
-
-
-sudo hadoop jar /opt/cloudera/parcels/CDH-5.14.2-1.cdh5.14.2.p0.3/lib/hadoop-0.20-mapreduce/hadoop-test-mr1.jar TestDFSIO -read -nrFiles 10 -fileSize 1000
-
-
-sudo hadoop jar /opt/cloudera/parcels/CDH-5.14.2-1.cdh5.14.2.p0.3/lib/hadoop-0.20-mapreduce/hadoop-test-mr1.jar TestDFSIO -clean
 #hdfs拷贝
 hadoop distcp -D ipc.client.fallback-to-simple-auth-allowed=true hdfs://source_path/ hdfs://destination_path/
 
@@ -319,3 +315,6 @@ wget -c -r -np -k -L -p -nc --reject=html https://archive.cloudera.com/cm5/redha
 -p：下载页面所需所有资源，如图片、声音等
 -k：将下载内容中的链接转换为本地连接
 --reject：排除html文件类型
+
+
+Zabbix、Ansible、k8s
