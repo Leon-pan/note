@@ -88,12 +88,6 @@ mkdir /sys
 restorecon -Rv /
 
 
-nginx日志分割？
-
-广西华为虚拟化10.147.101.200
-
-
-
 #PXE安装
 label linux
   menu label ^Install CentOS 7 local
@@ -122,6 +116,7 @@ timedatectl
 
 
 hwclock  --show
+#同步系统时钟
 hwclock --systohc
 
 
@@ -170,21 +165,9 @@ sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-0.20-mapreduce/hado
 hadoop distcp -D ipc.client.fallback-to-simple-auth-allowed=true hdfs://source_path/ hdfs://destination_path/
 
 
-#Kerberos认证
-kadmin.local
+#sqoop连接测试
+sqoop list-databases --connect jdbc:mysql://10.1.20.201 --username root --password inteast.com
 
-listprincs
-
-kadmin.local -q "addprinc HTTP"
-
-kinit hdfs
-kinit -kt /path user
-
-klist
-
-kadmin.local:  modprinc -maxrenewlife 90day krbtgt/EXAMPLE.COM@EXAMPLE.COM
-
-kadmin.local:  modprinc -maxrenewlife 90day +allow_renewable hue/namenode01.hadoop@EXAMPLE.COM
 
 #CDH高可用
 yum -y install cloudera-manager-server cloudera-manager-daemons
@@ -198,14 +181,6 @@ sed -i '/^server_host=/c\server_host=10.1.20.54' /etc/cloudera-scm-agent/config.
 
 先mysql主从复制，宕机后安装cms，再改agent地址并重启agent，删除cm，添加新的cm，解除所有宕机角色，将HDFS HA转为SNN
 
-
-梅西商贸地址
-36.24.187.209:9020
-http://qdj1212.zicp.io:9020/mxsmsystem
-
-
-梅西商贸海宁服务器地址
-122.225.95.186
 
 远程桌面连接时发生身份验证错误
 登录实例或者本地计算机。
@@ -292,17 +267,10 @@ REGIONSERVER -Xmx12g -Xms12g -Xmn3g  -Xss256k -XX:MetaspaceSize=128m -XX:Survivo
 
 
 echo -e 'root　　　　　soft     nproc    65536\nroot              hard    nproc    65536  \nroot              soft     nofile    65536\nroot              hard    nofile     65536' >> /etc/security/limits.conf
-
-出问题的是DM_GLYHYXGL.F_GSCKSFXX_OJ_GL_TC
-先合并DM_GLYHYXGL.F_GSSFCLCZXX_OJ_GL_TE
-
-
-起因：datanode02 IO过高导致cloudera-scm-agent访问1006端口获取信息超时
-
-select count(1)该表后问题复现
-原因：datanode02 IO高的原因是三张较大的表去年11月份起没有修改，并且无小型合并。存储文件较多且碎片化，执行select count(1)命令时，引起IO负载过高,fetching metrics at 'http://datanode02.hadoop:1006/jmx' timed out
-解决方法：针对较大的表执行major合并后，存储文件碎片消失，IO下降，问题消失
-
+ulimit -n
+/etc/security/limits.conf
+* soft nofile 100000
+* hard nofile 100000
 
 wget -c -r -np -k -L -p -nc --reject=html https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/5/
 
@@ -318,3 +286,24 @@ wget -c -r -np -k -L -p -nc --reject=html https://archive.cloudera.com/cm5/redha
 
 
 Zabbix、Ansible、k8s
+
+
+AutoDeploy用户Token
+3JYDDAtPJgsagG61rTLB
+
+
+#解压jar
+jar -xvf x.jar BOOT-INF/classes/application.properties
+
+#压缩jar
+jar -uvf x.jar BOOT-INF/
+
+
+#研发用户
+useradd develop
+passwd develop --stdin <<< develop
+echo 'develop        ALL=(ALL)       NOPASSWD: ALL'  >> /etc/sudoers
+
+
+#生成10个随机字符（包含数字，大写字母，小写字母，特殊字符）
+< /dev/urandom tr -dc 0-9-A-Z-a-z-/|head -c ${1:-10};echo
