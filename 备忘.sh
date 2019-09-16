@@ -120,11 +120,10 @@ hwclock  --show
 hwclock --systohc
 
 
-#数据库日志清理
+#禁止数据库日志自动清理
 mysql -e 'set global relay_log_purge=0' -p
 
-crontab -e
-
+crontab -l
 
 0 0 15 * * /home/mha/purge_relay_log.sh
 
@@ -283,9 +282,6 @@ wget -c -r -np -k -L -p -nc --reject=html https://archive.cloudera.com/cm5/redha
 -p：下载页面所需所有资源，如图片、声音等
 -k：将下载内容中的链接转换为本地连接
 --reject：排除html文件类型
-
-
-Zabbix、Ansible、k8s
 
 
 AutoDeploy用户Token
