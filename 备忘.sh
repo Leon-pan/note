@@ -266,7 +266,7 @@ REGIONSERVER -Xmx12g -Xms12g -Xmn3g  -Xss256k -XX:MetaspaceSize=128m -XX:Survivo
 
 
 echo -e 'root     soft     nproc     65536\nroot     hard     nproc     65536\nroot     soft     nofile     65536\nroot     hard     nofile     65536' >> /etc/security/limits.conf
-sed -i s/4096/65535/ /etc/security/limits.d/20-nproc.conf
+sed -i s/4096/65536/ /etc/security/limits.d/20-nproc.conf
 ulimit -n
 ulimit -u
 /etc/security/limits.conf
