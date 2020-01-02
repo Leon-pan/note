@@ -70,9 +70,13 @@ kafka 调整java Heap Size of Broker
 打印GC日志-Xloggc:/var/log/hbase/hbase-gc.log -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -XX:+PrintAdaptiveSizePolicy
 #获取指定服务的元数据信息
 http://<cmserver>:7180/api/v10/clusters/<cluster_name>/services/<service_name>/config
+#获取集群信息
+curl -v -k -X GET -u <cm_admin_user>:<cm_admin_pass> http://<cmserver>:7180/api/v10/clusters/
+#获取运行状态
+curl -v -k -X GET -u <cm_admin_user>:<cm_admin_pass> http://<cmserver>:7180/api/v1/clusters/Cluster%201/services
 
 #chrome插件
-Check My Links、EverSync、LinkMiner、Wappalyzer、FireShot、猫抓
+Check My Links、EverSync、LinkMiner、Wappalyzer、FireShot、猫抓、ElasticSearch Head、Proxy SwitchyOmega、Wappalyzer
 
 
 #Linux备份
