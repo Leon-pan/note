@@ -274,8 +274,8 @@ sed -i s/4096/65536/ /etc/security/limits.d/20-nproc.conf
 ulimit -n
 ulimit -u
 /etc/security/limits.conf
-* soft nofile 100000
-* hard nofile 100000
+* soft nofile 65536
+* hard nofile 65536
 
 wget -c -r -np -k -L -p -nc --reject=html https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/5/
 
