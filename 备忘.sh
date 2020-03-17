@@ -308,4 +308,4 @@ echo 'develop        ALL=(ALL)       NOPASSWD: ALL'  >> /etc/sudoers
 
 
 #生成10个随机字符（包含数字，大写字母，小写字母，特殊字符）
-< /dev/urandom tr -dc 0-9-A-Z-a-z-/|head -c ${1:-10};echo
+< /dev/urandom tr -dc a-zA-Z0-9_+\~\!\@\#\$\%\^\&\*|head -c ${1:-10};echo
