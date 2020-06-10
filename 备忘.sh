@@ -309,3 +309,12 @@ echo 'develop        ALL=(ALL)       NOPASSWD: ALL'  >> /etc/sudoers
 
 #生成10个随机字符（包含数字，大写字母，小写字母，特殊字符）
 < /dev/urandom tr -dc a-zA-Z0-9_+\~\!\@\#\$\%\^\&\*|head -c ${1:-10};echo
+
+
+#iptables
+yum install iptables-services
+iptables -A INPUT -s 127.0.0.1/32 -p tcp --dport 9200 -j ACCEPT
+iptables -A INPUT -s 10.33.60.237/32 -p tcp --dport 9200 -j ACCEPT
+iptables -A INPUT -p tcp --dport 9200 -j DROP
+service iptables save
+cat /etc/sysconfig/iptables
