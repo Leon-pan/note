@@ -76,7 +76,7 @@ curl -v -k -X GET -u <cm_admin_user>:<cm_admin_pass> http://<cmserver>:7180/api/
 curl -v -k -X GET -u <cm_admin_user>:<cm_admin_pass> http://<cmserver>:7180/api/v1/clusters/Cluster%201/services
 
 #chrome插件
-Check My Links、EverSync、LinkMiner、Wappalyzer、FireShot、猫抓、ElasticSearch Head、Proxy SwitchyOmega、Wappalyzer
+Check My Links、EverSync、LinkMiner、Wappalyzer、FireShot、猫抓、ElasticSearch Head、Proxy SwitchyOmega、Wappalyzer、Tampermonkey
 
 
 #Linux备份
