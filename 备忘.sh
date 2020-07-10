@@ -318,3 +318,6 @@ iptables -A INPUT -s 10.33.60.237/32 -p tcp --dport 9200 -j ACCEPT
 iptables -A INPUT -p tcp --dport 9200 -j DROP
 service iptables save
 cat /etc/sysconfig/iptables
+
+
+./configure --prefix=/home/nginx --with-http_ssl_module --with-pcre=../pcre-8.44 --with-openssl=../openssl-1.1.1g --with-zlib=../zlib-1.2.11
