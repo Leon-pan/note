@@ -320,4 +320,18 @@ service iptables save
 cat /etc/sysconfig/iptables
 
 
+#nginx
 ./configure --prefix=/home/nginx --with-http_ssl_module --with-pcre=../pcre-8.44 --with-openssl=../openssl-1.1.1g --with-zlib=../zlib-1.2.11
+
+
+#find
+find / -path /proc -a -prune -o -path /sys -a -prune -o -type f -exec grep -n3 "<?php"  {} \;
+
+
+#jenkins
+item = Jenkins.instance.getItemByFullName("your-job-name-here")
+//THIS WILL REMOVE ALL BUILD HISTORY
+item.builds.each() { build ->
+  build.delete()
+}
+item.updateNextBuildNumber(1)
