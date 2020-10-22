@@ -335,3 +335,9 @@ item.builds.each() { build ->
   build.delete()
 }
 item.updateNextBuildNumber(1)
+
+
+#利用跳板机打tunneling隧道
+在自己笔记本上操作    ssh -R 21889:OPS1带外IP:22 root@公网跳板机 -p端口
+远程支持人员  ssh root@公网跳板机 -p端口 
+ssh root@localhost -p21889 ---21889自定义端口
