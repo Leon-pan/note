@@ -341,3 +341,11 @@ item.updateNextBuildNumber(1)
 在自己笔记本上操作    ssh -R 21889:OPS1带外IP:22 root@公网跳板机 -p端口
 远程支持人员  ssh root@公网跳板机 -p端口 
 ssh root@localhost -p21889 ---21889自定义端口
+
+
+#screen命令
+screen -ls查看有没有在部署的切屏
+screen -dmS 自定义切屏名称--创建切屏
+screen -r 名称---已独享模式进入切屏
+screen -x 自定义名称--进入切屏，ctrl+a+d是退出切屏，切屏里的操作就是退出了后台还能继续执行,ctrl+c+d 杀掉当前切屏  在切屏中exit，直接删除了那个切屏 ctrl+A+[---在切屏里往上下翻记录，按ESC退出翻动
+screen -X -S 122128 quit----删除切屏
