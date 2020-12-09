@@ -277,9 +277,10 @@ ulimit -u
 * soft nofile 65536
 * hard nofile 65536
 
-wget -c -r -np -k -L -p -nc --reject=html https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/5/
+wget -t0 -c -r -np -k -L -p -nc --reject=html https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/5/
 
 参数说明：
+-t0：无限次重试
 -c：继续执行上次终端的任务
 -L：仅顺着关联的连接
 -r：递归下载方式
@@ -321,7 +322,7 @@ cat /etc/sysconfig/iptables
 
 
 #nginx
-./configure --prefix=/home/nginx --with-http_ssl_module --with-pcre=../pcre-8.44 --with-openssl=../openssl-1.1.1g --with-zlib=../zlib-1.2.11
+./configure --prefix=/home/nginx --with-stream --with-http_ssl_module --with-pcre=../pcre-8.44 --with-openssl=../openssl-1.1.1g --with-zlib=../zlib-1.2.11
 
 
 #find
