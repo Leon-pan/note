@@ -291,10 +291,6 @@ wget -t0 -c -r -np -k -L -p -nc --reject=html https://archive.cloudera.com/cm5/r
 --reject：排除html文件类型
 
 
-AutoDeploy用户Token
-3JYDDAtPJgsagG61rTLB
-
-
 #解压jar
 jar -xvf x.jar BOOT-INF/classes/application.properties
 
@@ -322,7 +318,7 @@ cat /etc/sysconfig/iptables
 
 
 #nginx
-./configure --prefix=/home/nginx --with-stream --with-http_ssl_module --with-pcre=../pcre-8.44 --with-openssl=../openssl-1.1.1g --with-zlib=../zlib-1.2.11
+./configure --prefix=/home/nginx --with-stream --with-http_ssl_module --with-http_v2_module --with-pcre=../pcre-8.44 --with-openssl=../openssl-1.1.1g --with-zlib=../zlib-1.2.11
 
 
 #find
