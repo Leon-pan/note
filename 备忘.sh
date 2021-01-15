@@ -318,7 +318,11 @@ cat /etc/sysconfig/iptables
 
 
 #nginx
-./configure --prefix=/home/nginx --with-stream --with-http_ssl_module --with-http_v2_module --with-pcre=../pcre-8.44 --with-openssl=../openssl-1.1.1g --with-zlib=../zlib-1.2.11
+./configure --prefix=/home/nginx --with-stream --with-stream_realip_module --with-http_ssl_module --with-http_v2_module --with-pcre=../pcre-8.44 --with-openssl=../openssl-1.1.1g --with-zlib=../zlib-1.2.11
+
+
+#证书验证
+openssl x509 -in cert.pem -noout -text
 
 
 #find
