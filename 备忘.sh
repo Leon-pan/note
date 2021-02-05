@@ -353,3 +353,5 @@ screen -X -S 122128 quit----删除切屏
 
 
 kubectl run --namespace test test --rm --tty -i --image registry.cn-hangzhou.aliyuncs.com/show/show_api-tool-core-backend:1.0 --command sh
+
+kubectl --context work-work1 get pods
