@@ -318,7 +318,7 @@ cat /etc/sysconfig/iptables
 
 
 #nginx
-./configure --prefix=/usr/local/nginx --with-stream --with-stream_realip_module --with-http_ssl_module --with-http_v2_module --with-pcre=../pcre-8.44 --with-openssl=../openssl-1.1.1g --with-zlib=../zlib-1.2.11
+./configure --prefix=/usr/local/nginx --with-stream --with-stream_realip_module --with-http_ssl_module --with-http_v2_module --with-http_realip_module --with-pcre=../pcre-8.44 --with-openssl=../openssl-1.1.1g --with-zlib=../zlib-1.2.11
 
 
 #证书验证
