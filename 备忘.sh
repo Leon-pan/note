@@ -38,29 +38,6 @@ vi /etc/rc.d/rc.local
 chmod +x /etc/rc.d/rc.local
 
 
-grant all privileges on *.* to 'root'@'%' identified by 'Asqwop123#$';
-
-create database hive default character set utf8;
-grant all privileges on hive.* to 'hive'@'%' identified by 'hive_123#$';
-grant all privileges on hive.* to 'hive'@'localhost' identified by 'hive_123#$';
-
-create database monitor default character set utf8;
-grant all privileges on monitor.* to 'monitor'@'%' identified by 'monitor_123#$';
-grant all privileges on monitor.* to 'monitor'@'localhost' identified by 'monitor_123#$';
-
-create database oozie default character set utf8;
-grant all privileges on oozie.* to 'oozie'@'%' identified by 'oozie_123#$';
-grant all privileges on oozie.* to 'oozie'@'localhost' identified by 'oozie_123#$';
-
-create database hue default character set utf8;
-grant all privileges on hue.* to 'hue'@'%' identified by 'hue_123#$';
-grant all privileges on hue.* to 'hue'@'localhost' identified by 'hue_123#$';
-
-create database sentry default character set utf8;
-grant all privileges on sentry.* to 'sentry'@'%' identified by 'sentry_123#$';
-grant all privileges on sentry.* to 'sentry'@'localhost' identified by 'sentry_123#$';
-
-
 #CDH
 mysql5.7 → mysql5.6
 oozie的主节点需要同时安装spark
