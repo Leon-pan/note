@@ -341,3 +341,8 @@ gcloud container images list-tags k8s.gcr.io/metrics-server/metrics-server
 #日志
 docker logs --since 2021-08-28+08:00 --until 2021-08-29+08:00 ${containerid}
 sed -n '/2021-08-28 09:25:55/,/2021-08-28 09:28:55/p'  ${logfie}
+
+#传输
+nc -l 8888|tar -xzf - -C /tmp
+
+tar -czf - /etc |nc IP 8888
