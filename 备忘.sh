@@ -327,7 +327,7 @@ screen -ls查看有没有在部署的切屏
 screen -dmS 自定义切屏名称--创建切屏
 screen -r 名称---已独享模式进入切屏
 screen -x 自定义名称--进入切屏，ctrl+a+d是退出切屏，切屏里的操作就是退出了后台还能继续执行,ctrl+c+d 杀掉当前切屏  在切屏中exit，直接删除了那个切屏 ctrl+A+[---在切屏里往上下翻记录，按ESC退出翻动
-screen -X -S 122128 quit----删除切屏
+screen -X -S 122128 quit----删除切屏
 
 
 kubectl run --namespace test test --rm --tty -i --image registry.cn-hangzhou.aliyuncs.com/show/show_api-tool-core-backend:1.0 --command sh
