@@ -342,6 +342,8 @@ gcloud container images list-tags k8s.gcr.io/metrics-server/metrics-server
 docker logs --since 2021-08-28+08:00 --until 2021-08-29+08:00 ${containerid}
 sed -n '/2021-08-28 09:25:55/,/2021-08-28 09:28:55/p'  ${logfie}
 
+kubectl logs --since-time="2022-03-09T00:00:00+00:00" deploy/${deployname}
+
 #传输
 nc -l 8888|tar -xzf - -C /tmp
 
