@@ -348,3 +348,11 @@ kubectl logs --since-time="2022-03-09T00:00:00+00:00" deploy/${deployname}
 nc -l 8888|tar -xzf - -C /tmp
 
 tar -czf - /etc |nc IP 8888
+
+
+# 按VmSwap使用量对进程排序，输出进程名称、进程ID以及SWAP用量
+$ for file in /proc/*/status ; do awk '/VmSwap|Name|^Pid/{printf $2 " " $3}END{ print ""}' $file; done | sort -k 3 -n -r | head
+
+
+#抓包
+tcpdump udp -i eth0 -t -s 0 and dst port 53
