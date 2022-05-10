@@ -290,6 +290,8 @@ yum install iptables-services
 iptables -A INPUT -s 127.0.0.1/32 -p tcp --dport 9200 -j ACCEPT
 iptables -A INPUT -s 10.33.60.237/32 -p tcp --dport 9200 -j ACCEPT
 iptables -A INPUT -p tcp --dport 9200 -j DROP
+#iptables -A DOCKER -s 127.0.0.1 -p tcp --dport 6379 -j ACCEPT
+#iptables -A DOCKER -p tcp --dport 6379 -j DROP
 service iptables save
 cat /etc/sysconfig/iptables
 
