@@ -292,6 +292,8 @@ iptables -A INPUT -s 10.33.60.237/32 -p tcp --dport 9200 -j ACCEPT
 iptables -A INPUT -p tcp --dport 9200 -j DROP
 #iptables -A DOCKER -s 127.0.0.1 -p tcp --dport 6379 -j ACCEPT
 #iptables -A DOCKER -p tcp --dport 6379 -j DROP
+#iptables -I INPUT -p tcp -s 172.0.0.0/8 -j DROP
+#iptables -I INPUT -p tcp -s 172.1.0.0/24 -j ACCEPT
 service iptables save
 cat /etc/sysconfig/iptables
 
