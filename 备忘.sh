@@ -294,6 +294,9 @@ iptables -A INPUT -p tcp --dport 9200 -j DROP
 #iptables -A DOCKER -p tcp --dport 6379 -j DROP
 #iptables -I INPUT -p tcp -s 172.0.0.0/8 -j DROP
 #iptables -I INPUT -p tcp -s 172.1.0.0/24 -j ACCEPT
+#禁止所有IP访问，但主动发起的不禁止,追加到最后
+#iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+#iptables -A INPUT -p tcp -j DROP
 service iptables save
 cat /etc/sysconfig/iptables
 
