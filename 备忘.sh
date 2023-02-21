@@ -363,3 +363,7 @@ $ for file in /proc/*/status ; do awk '/VmSwap|Name|^Pid/{printf $2 " " $3}END{ 
 
 #抓包
 tcpdump udp -i eth0 -t -s 0 and dst port 53
+
+
+#扫描磁盘
+for host in `ls /sys/class/scsi_host/`; do echo "- - -" > /sys/class/scsi_host/${host}/scan; done
