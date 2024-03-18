@@ -69,6 +69,16 @@ mkdir /sys
 restorecon -Rv /
 
 
+#rsync
+#定时备份到远程服务器
+rsync -avH --delete --log-file=/var/log/rsync.log /home/nexus/ 10.129.140.200:/back/nexus --exclude=sonatype-work/nexus/storage/snapshots/com/czcb --exclude=sonatype-work/nexus/storage/snapshots-TEST/com/czcb
+
+#远程服务器根据定时备份每天生成一个增量备份
+rsync -avH --delete --log-file=/var/log/rsync.log --link-dest /back/nexus /back/nexus /back/2023-12-11
+rsync -avH --delete --log-file=/var/log/rsync.log --link-dest /back/2023-12-11 /back/nexus /back/2023-12-12
+rsync -avH --delete --log-file=/var/log/rsync.log --link-dest /back/`date -d last-day +%F` /back/nexus /back/`date +%F`
+
+
 #PXE安装
 label linux
   menu label ^Install CentOS 7 local
@@ -362,4 +372,12 @@ $ for file in /proc/*/status ; do awk '/VmSwap|Name|^Pid/{printf $2 " " $3}END{ 
 
 
 #抓包
-tcpdump udp -i eth0 -t -s 0 and dst port 53
+tcpdump udp -i eth0 -t dst port 53
+-t不输出时间
+-n不解析dns
+-nn不解析域名和端口
+-XX打印报文
+
+
+#扫描磁盘
+for host in `ls /sys/class/scsi_host/`; do echo "- - -" > /sys/class/scsi_host/${host}/scan; done
