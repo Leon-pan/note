@@ -381,3 +381,16 @@ tcpdump udp -i eth0 -t dst port 53
 
 #扫描磁盘
 for host in `ls /sys/class/scsi_host/`; do echo "- - -" > /sys/class/scsi_host/${host}/scan; done
+
+
+#pssh
+echo "StrictHostKeyChecking no" > ~/.ssh/config
+pssh -h iplist -A "uptime"
+
+
+#strace诊断
+strace -Tttfvy
+-T 显示每一调用所耗时间
+-tt 在输出中的每一行加上时间信息
+-f 跟踪由fork调用所产生的子进程
+-v 输出所有系统调用
