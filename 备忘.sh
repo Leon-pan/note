@@ -394,3 +394,7 @@ strace -Tttfvy
 -tt 在输出中的每一行加上时间信息
 -f 跟踪由fork调用所产生的子进程
 -v 输出所有系统调用
+
+
+#查看TCP连接数
+netstat -antp | awk 'NR>2 {print $6}' | sort | uniq -c
