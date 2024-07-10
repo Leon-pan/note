@@ -398,3 +398,37 @@ strace -Tttfvy
 
 #查看TCP连接数
 netstat -antp | awk 'NR>2 {print $6}' | sort | uniq -c
+
+
+#查找10M以上的文件
+find / -path /sys -prune -o -path /proc -prune -o -path /run -prune -o -type f -size +10M
+#find / -path /proc -a -prune -o -path /sys -a -prune -o -path /run -a -prune -o -type f -size +10M
+
+
+#统计空间大小除了系统目录
+du -ah --exclude="proc" --exclude="run" --exclude="var" -d1 /
+
+
+#筛选除ppid为2的进程
+ps -ef | awk '{if($3!=2)print}'
+
+
+#列出所有非系统进程名
+ps -eo ppid,cmd | awk '{if($1!=2)print}' | awk '{$1="";print}'
+ps -eo ppid,cmd | awk '{if($1!=2)print}' | awk '{$1="";print}' | awk '{print $1}' | sort | uniq -c
+
+
+#目标值相加
+awk '{sum+=$1}END{print sum}'
+
+
+#查看目标文件超过150字符的行
+cat data.txt|grep ".\{150\}"
+
+
+#获取目标文件最长的一行，显示10000个字符
+awk '{if (length(max)<length()) max=$0}END{print max}' data.txt|cut -c 1-10000
+
+
+#vi dos转unix
+set ff=unix
