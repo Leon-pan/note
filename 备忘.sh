@@ -378,6 +378,9 @@ tcpdump udp -i eth0 -t dst port 53
 -nn不解析域名和端口
 -XX打印报文
 
+#抓包的同时打印
+tcpdump udp -i eth0 -U -t dst port 53 -w - | tee dump.cap | tcpdump -n -XX -r -
+
 
 #扫描磁盘
 for host in `ls /sys/class/scsi_host/`; do echo "- - -" > /sys/class/scsi_host/${host}/scan; done
