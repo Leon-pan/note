@@ -347,8 +347,15 @@ screen -x 自定义名称--进入切屏，ctrl+a+d是退出切屏，切屏里的
 screen -X -S 122128 quit----删除切屏
 
 
-kubectl run --namespace test test --rm --tty -i --image registry.cn-hangzhou.aliyuncs.com/show/show_api-tool-core-backend:1.0 --command sh
+#临时运行busybox容器
+kubectl run --namespace default busybox --rm --tty -i --image harbor.app.cz/dockerhub/library/busybox@sha256:016adc6fb22c3344616a326e2654164b5ab261510d4232e52223a59fee76762d --command sh
 
+
+#自定义输出列
+kubectl get pods -o custom-columns=NAME:.metadata.name,STATUS:.status.phase,IMAGES:.spec.containers[0].image -n antstack
+
+
+#列出集群所有pods
 kubectl --context work-work1 get pods
 
 gcloud container images list --repository=k8s.gcr.io/metrics-server
