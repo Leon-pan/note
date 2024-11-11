@@ -102,6 +102,9 @@ mount -o loop -t iso9660 /home/CentOS-7-x86_64-Everything-1708.iso /media
 vi /etc/yum.repos.d/CentOS-Media.repo
 yum --disablerepo=\* --enablerepo=c7-media [command]
 
+#nfs挂载
+mount -t nfs -o vers=4.1,timeo=50 filenas.app.cz:/filenas /mnt
+
 #时间设置
 timedatectl
 
