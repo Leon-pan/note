@@ -389,7 +389,7 @@ tcpdump udp -i eth0 -t dst port 53
 -XX打印报文
 
 #抓包的同时打印
-tcpdump udp -i eth0 -U -t dst port 53 -w - | tee dump.cap | tcpdump -n -XX -r -
+tcpdump udp -i eth0 -s 0 -U -t dst port 53 -w - | tee dump.cap | tcpdump -n -XX -r -
 
 
 #扫描磁盘
@@ -445,3 +445,15 @@ awk '{if (length(max)<length()) max=$0}END{print max}' data.txt|cut -c 1-10000
 
 #vi dos转unix
 set ff=unix
+
+
+#指定k8s edit编辑器路径
+KUBE_EDITOR="/usr/bin/vi" kubectl edit cm/coredns -n kube-system
+
+
+#查看文件句柄占用较多的进程
+lsof -n|awk '{print $2}'|sort|uniq -c|sort -nr|more
+
+
+#查看已使用句柄数和最大句柄数
+cat /proc/sys/fs/file-nr
