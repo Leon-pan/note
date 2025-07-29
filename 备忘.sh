@@ -323,8 +323,17 @@ yum install -y gcc gcc-c++ perl
 openssl x509 -in cert.pem -noout -text
 
 
-#find
+#find查找恶意文件
 find / -path /proc -a -prune -o -path /sys -a -prune -o -type f -exec grep -n3 "<?php"  {} \;
+
+
+#查找文件并打印内容
+find . -name "*.sh" -exec awk 'FNR==1 {print "FILENAME:" FILENAME} {print}' {} \;
+
+
+#查找10M以上的文件
+find / -path /sys -prune -o -path /proc -prune -o -path /run -prune -o -type f -size +10M
+#find / -path /proc -a -prune -o -path /sys -a -prune -o -path /run -a -prune -o -type f -size +10M
 
 
 #jenkins
@@ -365,11 +374,20 @@ gcloud container images list --repository=k8s.gcr.io/metrics-server
 gcloud container images list-tags k8s.gcr.io/metrics-server/metrics-server
 
 
-#日志
-docker logs --since 2021-08-28+08:00 --until 2021-08-29+08:00 ${containerid}
+#容器日志
+docker logs --since 2021-08-28T11:10:00+08:00 --until 2021-08-29T11:10:00+08:00 ${containerid}
 sed -n '/2021-08-28 09:25:55/,/2021-08-28 09:28:55/p'  ${logfie}
 
 kubectl logs --since-time="2022-03-09T00:00:00+00:00" deploy/${deployname}
+
+
+#容器IP ping不通，开了tcpdump抓docker0包就通，开启混杂模式后解决
+ip link set docker0 promisc on
+
+
+#docker build使用代理
+docker build --build-arg HTTP_PROXY="http://proxy-addr:proxy-port" --build-arg HTTPS_PROXY="http://proxy-addr:proxy-port" --build-arg "NO_PROXY=localhost,127.0.0.1" .
+
 
 #传输
 nc -l 8888|tar -xzf - -C /tmp
@@ -411,11 +429,6 @@ strace -Tttfvy
 
 #查看TCP连接数
 netstat -antp | awk 'NR>2 {print $6}' | sort | uniq -c
-
-
-#查找10M以上的文件
-find / -path /sys -prune -o -path /proc -prune -o -path /run -prune -o -type f -size +10M
-#find / -path /proc -a -prune -o -path /sys -a -prune -o -path /run -a -prune -o -type f -size +10M
 
 
 #统计空间大小除了系统目录
